@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GPA Calculator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            background:
+                radial-gradient(circle at 10% 10%, #164e63 0%, transparent 30%),
+                radial-gradient(circle at 90% 90%, #4c1d95 0%, transparent 30%),
+                #07152f;
+
+            color: white;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .container {
+
+            width: 95%;
+            max-width: 1000px;
+
+            margin: auto;
+            padding: 35px;
+
+            border-radius: 28px;
+
+            background: rgba(255, 255, 255, 0.10);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .icon {
+
+            width: 70px;
+            height: 70px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            font-size: 35px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+
+            color: rgba(255, 255, 255, 0.65);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SEMESTER SELECT
+           ========================= */
+
+        .semester-box {
+
+            margin-bottom: 28px;
+            padding: 20px;
+
+            border-radius: 18px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .semester-box label {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-size: 14px;
+
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        #semester {
+
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 12px;
+
+            border: 1px solid rgba(255, 255, 255, 0.25);
+
+            background: rgba(0, 0, 0, 0.25);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        #semester option {
+
+            background: #101d3d;
+            color: white;
+        }
+
+
+        /* =========================
+           SUBJECT CARD
+           ========================= */
+
+        #subjects {
+
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .subject {
+
+            padding: 22px;
+
+            border-radius: 20px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+
+            transition: 0.3s ease;
+        }
+
+        .subject:hover {
+
+            transform: translateY(-3px);
+
+            background: rgba(255, 255, 255, 0.12);
+
+            box-shadow:
+                0 15px 30px rgba(0, 0, 0, 0.18);
+        }
+
+        .subject h3 {
+
+            margin-bottom: 18px;
+
+            font-size: 17px;
+        }
+
+        .field-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 0.7fr 0.8fr auto;
+
+            gap: 12px;
+
+            align-items: end;
+        }
+
+        .field {
+
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+
+            font-size: 12px;
+
+            color: rgba(255, 255, 255, 0.65);
+        }
+
+
+        input,
+        .grade {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(255, 255, 255, 0.22);
+
+            background: rgba(0, 0, 0, 0.20);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        input:focus,
+        .grade:focus {
+
+            border-color: #22d3ee;
+
+            box-shadow:
+                0 0 0 3px rgba(34, 211, 238, 0.12);
+        }
+
+        .grade option {
+
+            background: #101d3d;
+            color: white;
+        }
+
+
+        /* =========================
+           BUTTONS
+           ========================= */
+
+        button {
+
+            border: none;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: 0.3s ease;
+        }
+
+        .remove-btn {
+
+            padding: 11px 15px;
+
+            border-radius: 10px;
+
+            background: rgba(239, 68, 68, 0.18);
+
+            color: #fecaca;
+
+            border: 1px solid rgba(239, 68, 68, 0.30);
+
+            white-space: nowrap;
+        }
+
+        .remove-btn:hover {
+
+            background: rgba(239, 68, 68, 0.35);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+           ========================= */
+
+        .actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr 1fr;
+
+            gap: 14px;
+
+            margin-top: 25px;
+        }
+
+        .action-btn {
+
+            padding: 15px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-size: 14px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .action-btn:hover {
+
+            transform: translateY(-3px);
+
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+
+        .calculate-btn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+
+            border: none;
+        }
+
+        .calculate-btn:hover {
+
+            box-shadow:
+                0 10px 25px rgba(124, 58, 237, 0.35);
+        }
+
+
+        .download-btn {
+
+            text-decoration: none;
+
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* =========================
+           RESULT
+           ========================= */
+
+        #result {
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            background: rgba(34, 211, 238, 0.10);
+
+            border: 1px solid rgba(34, 211, 238, 0.25);
+
+            color: #a5f3fc;
+
+            font-size: 24px;
+
+            min-height: 65px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: rgba(255, 255, 255, 0.40);
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 750px) {
+
+            .container {
+                padding: 25px 18px;
+            }
+
+            .field-row {
+
+                grid-template-columns: 1fr 1fr;
+
+            }
+
+            .field:first-child {
+
+                grid-column:
+                    span 2;
+            }
+
+            .remove-btn {
+
+                width: 100%;
+            }
+
+            .actions {
+
+                grid-template-columns: 1fr;
+
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .field-row {
+
+                grid-template-columns: 1fr;
+            }
+
+            .field:first-child {
+
+                grid-column:
+                    span 1;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="icon">
+            📊
+        </div>
+
+        <h1>
+            GPA Calculator
+        </h1>
+
+        <p class="subtitle">
+            Calculate your semester GPA easily
+        </p>
+
+    </div>
+
+
+    <!-- SEMESTER -->
+
+    <div class="semester-box">
+
+        <label>
+            Select Semester
+        </label>
+
+        <select id="semester">
+
+            <option value="1">
+                Semester 1
+            </option>
+
+            <option value="2">
+                Semester 2
+            </option>
+
+            <option value="3">
+                Semester 3
+            </option>
+
+            <option value="4">
+                Semester 4
+            </option>
+
+            <option value="5">
+                Semester 5
+            </option>
+
+            <option value="6">
+                Semester 6
+            </option>
+
+            <option value="7">
+                Semester 7
+            </option>
+
+            <option value="8">
+                Semester 8
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- SUBJECTS -->
+
+    <div id="subjects">
+
+        <div class="subject">
+
+            <h3>
+                Subject 1
+            </h3>
+
+            <div class="field-row">
+
+                <div class="field">
+
+                    <label>
+                        Subject Name
+                    </label>
+
+                    <input
+                        type="text"
+                        class="subject-name"
+                        placeholder="Enter subject name"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Credits
+                    </label>
+
+                    <input
+                        type="number"
+                        class="credits"
+                        min="1"
+                        step="1"
+                        placeholder="Credits"
+                        onkeydown="return event.key !== 'e' && event.key !== 'E' && event.key !== '+' && event.key !== '-'"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Grade
+                    </label>
+
+                    <select class="grade">
+
+                        <option value="">
+                            Select
+                        </option>
+
+                        <option value="10">
+                            O
+                        </option>
+
+                        <option value="9">
+                            A+
+                        </option>
+
+                        <option value="8">
+                            A
+                        </option>
+
+                        <option value="7">
+                            B+
+                        </option>
+
+                        <option value="6">
+                            B
+                        </option>
+
+                        <option value="5">
+                            C
+                        </option>
+
+                        <option value="0">
+                            F
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="remove-btn"
+                    onclick="removeSubject(this)"
+                >
+                    🗑 Remove
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="actions">
+
+        <button
+            type="button"
+            class="action-btn"
+            onclick="addSubject()"
+        >
+            ➕ Add Subject
+        </button>
+
+
+        <button
+            type="button"
+            class="action-btn calculate-btn"
+            onclick="calculateGPA()"
+        >
+            🧮 Calculate GPA
+        </button>
+
+
+        <a
+            href="/download-gpa-pdf"
+            class="action-btn download-btn"
+        >
+            📄 Download GPA PDF
+        </a>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <h2 id="result">
+        Your GPA will appear here
+    </h2>
+
+
+    <div class="footer">
+        GPA &amp; CGPA Calculator
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+    let subjectCount = 1;
+
+
+    // =========================
+    // ADD SUBJECT
+    // =========================
+
+    function addSubject() {
+
+        subjectCount++;
+
+        const subject =
+            document.createElement("div");
+
+        subject.className =
+            "subject";
+
+        subject.innerHTML = `
+
+            <h3>
+                Subject ${subjectCount}
+            </h3>
+
+            <div class="field-row">
+
+                <div class="field">
+
+                    <label>
+                        Subject Name
+                    </label>
+
+                    <input
+                        type="text"
+                        class="subject-name"
+                        placeholder="Enter subject name"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Credits
+                    </label>
+
+                    <input
+                        type="number"
+                        class="credits"
+                        min="1"
+                        step="1"
+                        placeholder="Credits"
+                        onkeydown="return event.key !== 'e' && event.key !== 'E' && event.key !== '+' && event.key !== '-'"
+                    >
+
+                </div>
+
+                <div class="field">
+
+                    <label>
+                        Grade
+                    </label>
+
+                    <select class="grade">
+
+                        <option value="">
+                            Select
+                        </option>
+
+                        <option value="10">O</option>
+                        <option value="9">A+</option>
+                        <option value="8">A</option>
+                        <option value="7">B+</option>
+                        <option value="6">B</option>
+                        <option value="5">C</option>
+                        <option value="0">F</option>
+
+                    </select>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="remove-btn"
+                    onclick="removeSubject(this)"
+                >
+                    🗑 Remove
+                </button>
+
+            </div>
+        `;
+
+        document
+            .getElementById("subjects")
+            .appendChild(subject);
+    }
+
+
+    // =========================
+    // REMOVE SUBJECT
+    // =========================
+
+    function removeSubject(button) {
+
+        const subjects =
+            document.querySelectorAll(".subject");
+
+        if (subjects.length === 1) {
+
+            alert(
+                "At least one subject is required."
+            );
+
+            return;
+        }
+
+        button
+            .closest(".subject")
+            .remove();
+    }
+
+
+    // =========================
+    // CALCULATE GPA
+    // =========================
+
+    function calculateGPA() {
+
+        const semester =
+            document
+                .getElementById("semester")
+                .value;
+
+        const subjectNames =
+            document.querySelectorAll(
+                ".subject-name"
+            );
+
+        const subjectCredits =
+            document.querySelectorAll(
+                ".credits"
+            );
+
+        const subjectGrades =
+            document.querySelectorAll(
+                ".grade"
+            );
+
+
+        let totalCredits = 0;
+
+        let totalPoints = 0;
+
+        let subjects = [];
+
+
+        for (
+            let i = 0;
+            i < subjectNames.length;
+            i++
+        ) {
+
+            const name =
+                subjectNames[i]
+                    .value
+                    .trim();
+
+            const credit =
+                Number(
+                    subjectCredits[i]
+                        .value
+                );
+
+            const grade =
+                subjectGrades[i]
+                    .value;
+
+
+            if (name === "") {
+
+                alert(
+                    "Please enter Subject " +
+                    (i + 1) +
+                    " name."
+                );
+
+                return;
+            }
+
+
+            if (!credit || credit <= 0) {
+
+                alert(
+                    "Please enter valid credits for Subject " +
+                    (i + 1)
+                );
+
+                return;
+            }
+
+
+            if (grade === "") {
+
+                alert(
+                    "Please select grade for Subject " +
+                    (i + 1)
+                );
+
+                return;
+            }
+
+
+            totalCredits += credit;
+
+            totalPoints +=
+                credit *
+                Number(grade);
+
+
+            subjects.push({
+
+                name: name,
+
+                credits: credit,
+
+                grade:
+                    subjectGrades[i]
+                        .options[
+                            subjectGrades[i]
+                                .selectedIndex
+                        ]
+                        .text
+
+            });
+
+        }
+
+
+        if (totalCredits === 0) {
+
+            alert(
+                "Total credits cannot be zero."
+            );
+
+            return;
+        }
+
+
+        const gpa =
+            totalPoints /
+            totalCredits;
+
+
+        // DISPLAY GPA
+
+        document
+            .getElementById("result")
+            .innerText =
+            "Your GPA is: " +
+            gpa.toFixed(2);
+
+
+        // SAVE GPA
+
+        fetch("/save-gpa", {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                semester:
+                    semester,
+
+                gpa:
+                    gpa.toFixed(2),
+
+                credits:
+                    totalCredits,
+
+                subjects:
+                    subjects
+
+            })
+
+        })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to save GPA"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            console.log(
+                data.message
+            );
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Error saving GPA:",
+                error
+            );
+
+        });
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

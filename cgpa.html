@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CGPA Calculator</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+
+            min-height: 100vh;
+
+            padding: 40px 20px;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    #164e63 0%,
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 90%,
+                    #4c1d95 0%,
+                    transparent 30%
+                ),
+                #07152f;
+
+            color: white;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+           ========================= */
+
+        .container {
+
+            width: 95%;
+
+            max-width: 1000px;
+
+            margin: auto;
+
+            padding: 35px;
+
+            border-radius: 28px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            backdrop-filter: blur(25px);
+
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 25px 60px
+                rgba(0, 0, 0, 0.35);
+        }
+
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .icon {
+
+            width: 70px;
+
+            height: 70px;
+
+            margin:
+                0 auto 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 20px;
+
+            font-size: 35px;
+
+            background:
+                rgba(255, 255, 255, 0.15);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+        }
+
+        h1 {
+
+            font-size: 32px;
+
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+
+            color:
+                rgba(255, 255, 255, 0.65);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SEMESTER LIST
+           ========================= */
+
+        #semesters {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        /* =========================
+           SEMESTER CARD
+           ========================= */
+
+        .semester {
+
+            padding: 24px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.18);
+
+            transition:
+                0.3s ease;
+        }
+
+        .semester:hover {
+
+            transform:
+                translateY(-3px);
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            box-shadow:
+                0 15px 30px
+                rgba(0, 0, 0, 0.18);
+        }
+
+
+        .semester-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+            font-size: 17px;
+
+            font-weight: bold;
+        }
+
+
+        .semester-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background:
+                rgba(34, 211, 238, 0.15);
+
+            border:
+                1px solid
+                rgba(34, 211, 238, 0.25);
+        }
+
+
+        /* =========================
+           DATA GRID
+           ========================= */
+
+        .semester-data {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+        }
+
+
+        .data-box {
+
+            padding: 15px;
+
+            border-radius: 13px;
+
+            background:
+                rgba(0, 0, 0, 0.18);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+        }
+
+
+        .data-label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 12px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+        }
+
+
+        .data-value {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            color: #a5f3fc;
+        }
+
+
+        /* Hide the actual inputs visually */
+
+        .semester input {
+
+            display: none;
+        }
+
+
+        /* =========================
+           EMPTY MESSAGE
+           ========================= */
+
+        .empty {
+
+            padding: 35px;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            color:
+                rgba(255, 255, 255, 0.55);
+
+            background:
+                rgba(255, 255, 255, 0.06);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+        }
+
+
+        /* =========================
+           ACTION BUTTONS
+           ========================= */
+
+        .actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 14px;
+
+            margin-top: 25px;
+        }
+
+
+        .action-btn {
+
+            min-height: 52px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 14px 18px;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            text-decoration: none;
+
+            cursor: pointer;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.22);
+
+            transition:
+                0.3s ease;
+        }
+
+
+        .action-btn:hover {
+
+            transform:
+                translateY(-3px);
+
+            background:
+                rgba(255, 255, 255, 0.22);
+        }
+
+
+        .calculate-btn {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #06b6d4,
+                    #7c3aed
+                );
+
+            border: none;
+        }
+
+
+        .calculate-btn:hover {
+
+            box-shadow:
+                0 10px 25px
+                rgba(124, 58, 237, 0.35);
+        }
+
+
+        /* =========================
+           RESULT CARD
+           ========================= */
+
+        #result {
+
+            margin-top: 25px;
+
+            padding: 22px;
+
+            min-height: 75px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            border-radius: 18px;
+
+            background:
+                rgba(34, 211, 238, 0.10);
+
+            border:
+                1px solid
+                rgba(34, 211, 238, 0.25);
+
+            color: #a5f3fc;
+
+            font-size: 25px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           FOOTER
+           ========================= */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            color:
+                rgba(255, 255, 255, 0.40);
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            .container {
+
+                padding:
+                    25px 18px;
+            }
+
+            h1 {
+
+                font-size: 27px;
+            }
+
+            .semester-data {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .actions {
+
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <div class="header">
+
+        <div class="icon">
+            🧮
+        </div>
+
+        <h1>
+            CGPA Calculator
+        </h1>
+
+        <p class="subtitle">
+            Calculate your overall academic performance
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         SEMESTER DETAILS
+         ========================= -->
+
+    <div id="semesters">
+
+        {% if semester_data %}
+
+            {% for semester, data in semester_data.items() %}
+
+            <div class="semester">
+
+                <div class="semester-title">
+
+                    <div class="semester-icon">
+                        📚
+                    </div>
+
+                    {{ semester }}
+
+                </div>
+
+
+                <div class="semester-data">
+
+
+                    <!-- GPA -->
+
+                    <div class="data-box">
+
+                        <span class="data-label">
+                            Semester GPA
+                        </span>
+
+                        <span class="data-value">
+                            {{ data.gpa }}
+                        </span>
+
+                    </div>
+
+
+                    <!-- Credits -->
+
+                    <div class="data-box">
+
+                        <span class="data-label">
+                            Total Credits
+                        </span>
+
+                        <span class="data-value">
+                            {{ data.credits }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Hidden values used by JavaScript -->
+
+                <input
+                    type="number"
+                    class="gpa"
+                    value="{{ data.gpa }}"
+                    readonly
+                >
+
+                <input
+                    type="number"
+                    class="credits"
+                    value="{{ data.credits }}"
+                    readonly
+                >
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+
+                📚
+
+                <br><br>
+
+                No semester GPA saved yet.
+
+                <br>
+
+                Please calculate at least one semester GPA first.
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =========================
+         ACTION BUTTONS
+         ========================= -->
+
+    <div class="actions">
+
+
+        <button
+            type="button"
+            class="action-btn calculate-btn"
+            onclick="calculateCGPA()"
+        >
+
+            🧮 Calculate CGPA
+
+        </button>
+
+
+        <a
+            href="/download-cgpa-pdf"
+            class="action-btn"
+        >
+
+            📄 Download CGPA PDF
+
+        </a>
+
+
+    </div>
+
+
+    <!-- =========================
+         RESULT
+         ========================= -->
+
+    <h2 id="result">
+        Your CGPA will appear here
+    </h2>
+
+
+    <div class="footer">
+
+        GPA &amp; CGPA Calculator
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+    // =========================
+    // CALCULATE CGPA
+    // =========================
+
+    function calculateCGPA() {
+
+
+        const gpas =
+            document.querySelectorAll(
+                ".gpa"
+            );
+
+
+        const credits =
+            document.querySelectorAll(
+                ".credits"
+            );
+
+
+        if (gpas.length === 0) {
+
+            alert(
+                "Please calculate at least one semester GPA first."
+            );
+
+            return;
+        }
+
+
+        let totalCredits = 0;
+
+        let totalPoints = 0;
+
+
+        // =========================
+        // CALCULATE TOTAL
+        // =========================
+
+        for (
+            let i = 0;
+            i < gpas.length;
+            i++
+        ) {
+
+
+            const gpa =
+                Number(
+                    gpas[i].value
+                );
+
+
+            const credit =
+                Number(
+                    credits[i].value
+                );
+
+
+            totalCredits +=
+                credit;
+
+
+            totalPoints +=
+                gpa * credit;
+
+        }
+
+
+        // =========================
+        // VALIDATE
+        // =========================
+
+        if (totalCredits === 0) {
+
+            alert(
+                "Credits cannot be zero."
+            );
+
+            return;
+        }
+
+
+        // =========================
+        // CGPA
+        // =========================
+
+        const cgpa =
+            totalPoints /
+            totalCredits;
+
+
+        // =========================
+        // DISPLAY
+        // =========================
+
+        document
+            .getElementById("result")
+            .innerText =
+            "Your CGPA is: " +
+            cgpa.toFixed(2);
+
+
+        // =========================
+        // SAVE CGPA
+        // =========================
+
+        fetch(
+            "/save-cgpa",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        cgpa:
+                            cgpa.toFixed(2)
+
+                    })
+
+            }
+        );
+
+    }
+
+</script>
+
+
+</body>
+
+</html>

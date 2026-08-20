@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CGPA Calculator - Dashboard</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            background: #07152f;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(25px);
+        }
+
+        body::before {
+            width: 430px;
+            height: 430px;
+            top: -170px;
+            left: -120px;
+            background: #22d3ee;
+            opacity: 0.65;
+            animation: floatOne 10s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            width: 460px;
+            height: 460px;
+            right: -150px;
+            bottom: -190px;
+            background: #7c3aed;
+            opacity: 0.65;
+            animation: floatTwo 12s ease-in-out infinite alternate;
+        }
+
+        .pink-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            left: 50%;
+            bottom: -180px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: #ec4899;
+            filter: blur(50px);
+            opacity: 0.30;
+            animation: floatThree 9s ease-in-out infinite alternate;
+        }
+
+        .dashboard {
+            width: 92%;
+            max-width: 650px;
+            padding: 42px;
+
+            position: relative;
+            z-index: 1;
+
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            background: rgba(255, 255, 255, 0.14);
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.30);
+
+            animation: cardFloat 5s ease-in-out infinite;
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 22px;
+
+            background: rgba(255, 255, 255, 0.20);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+
+            font-size: 40px;
+
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .welcome {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.90);
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .register {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .option {
+            padding: 24px 18px;
+
+            min-height: 175px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            text-decoration: none;
+
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.30);
+
+            background: rgba(255, 255, 255, 0.14);
+
+            color: white;
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 12px 25px rgba(0, 0, 0, 0.12);
+
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: translateY(-7px) scale(1.02);
+
+            background: rgba(255, 255, 255, 0.24);
+
+            box-shadow:
+                0 18px 35px rgba(0, 0, 0, 0.20);
+        }
+
+        .option-icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .option-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .option-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.65);
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+
+            color: rgba(255, 255, 255, 0.50);
+
+            font-size: 12px;
+        }
+
+        @keyframes floatOne {
+
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(90px, 60px) scale(1.12);
+            }
+        }
+
+        @keyframes floatTwo {
+
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(-70px, -60px) scale(1.10);
+            }
+        }
+
+        @keyframes floatThree {
+
+            0% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-45px);
+            }
+        }
+
+        @keyframes cardFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes logoPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.06);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard {
+                padding: 30px 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .option-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="pink-glow"></div>
+
+    <div class="dashboard">
+
+        <div class="logo">
+            🎓
+        </div>
+
+        <h1>
+            CGPA Calculator
+        </h1>
+
+        <div class="welcome">
+            Welcome, {{ student_name }}!
+        </div>
+
+        <div class="register">
+            Register Number: {{ reg_no }}
+        </div>
+
+
+        <div class="option-grid">
+
+            <!-- GPA Calculator -->
+
+            <a href="/gpa" class="option">
+
+                <div class="option-icon">
+                    📊
+                </div>
+
+                <div class="option-title">
+                    GPA Calculator
+                </div>
+
+                <div class="option-description">
+                    Calculate your semester GPA
+                </div>
+
+            </a>
+
+
+            <!-- CGPA Calculator -->
+
+            <a href="/cgpa" class="option">
+
+                <div class="option-icon">
+                    🧮
+                </div>
+
+                <div class="option-title">
+                    CGPA Calculator
+                </div>
+
+                <div class="option-description">
+                    Calculate your overall CGPA
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div class="footer">
+            GPA &amp; CGPA Calculator
+        </div>
+
+    </div>
+
+</body>
+
+</html>
